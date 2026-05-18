@@ -152,4 +152,681 @@ body {
 .add-day {
   padding: 6px 14px; border-radius: 999px;
   border: 1.5px dashed var(--border); background: none;
-  color: var(--text3); font-size: 13px; cursor:
+  color: var(--text3); font-size: 13px; cursor: pointer;
+  white-space: nowrap; font-family: inherit; transition: all .15s;
+  display: inline-flex; align-items: center; gap: 4px;
+}
+.add-day:hover { border-color: var(--accent); color: var(--accent); }
+
+/* 行程細項區塊 */
+.panel {
+  background: var(--bg1); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 1rem 1.25rem;
+  box-shadow: var(--shadow);
+}
+.panel-head {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 1rem; flex-wrap: wrap; gap: 8px;
+}
+.panel-title { font-size: 15px; font-weight: 600; font-family: 'Noto Serif TC', serif; color: var(--text1); }
+.panel-date { font-size: 13px; color: var(--text3); margin-top: 2px; display: flex; align-items: center; gap: 4px; }
+.day-total {
+  font-size: 13px; color: var(--gold); font-weight: 600;
+  padding: 4px 12px; background: rgba(184,131,42,0.1);
+  border: 1px solid rgba(184,131,42,0.25); border-radius: 999px;
+}
+
+/* 項目樣式 */
+.items { display: flex; flex-direction: column; gap: 8px; margin-bottom: 1rem; }
+.item {
+  display: flex; align-items: flex-start; gap: 10px;
+  padding: 10px 12px; background: var(--bg0);
+  border: 1px solid var(--border-light); border-radius: var(--radius);
+  transition: border-color .15s, box-shadow .15s;
+}
+.item:hover { border-color: var(--accent2); box-shadow: 0 2px 10px rgba(196,133,74,0.1); }
+.item-time { font-size: 12px; color: var(--text3); min-width: 46px; padding-top: 2px; flex-shrink: 0; }
+.item-dot { width: 8px; height: 8px; border-radius: 50%; margin-top: 5px; flex-shrink: 0; }
+.item-body { flex: 1; min-width: 0; }
+.item-nm { font-size: 14px; font-weight: 500; display: flex; align-items: center; gap: 6px; }
+.item-note { font-size: 12px; color: var(--text3); margin-top: 2px; }
+.item-cost { font-size: 13px; font-weight: 600; color: var(--teal); white-space: nowrap; padding-top: 2px; }
+.item-actions { display: flex; gap: 2px; flex-shrink: 0; align-items: flex-start; padding-top: 1px; }
+.item-edit { background: none; border: none; cursor: pointer; color: var(--text3); font-size: 16px; padding: 3px; transition: color .15s; }
+.item-edit:hover { color: var(--accent); }
+.item-del { background: none; border: none; cursor: pointer; color: var(--text3); font-size: 16px; padding: 3px; transition: color .15s; }
+.item-del:hover { color: var(--rose); }
+
+.item-edit-form {
+  margin-top: 10px; padding: 12px; background: var(--bg1); border: 1.5px solid var(--accent2); border-radius: var(--radius);
+  display: flex; flex-direction: column; gap: 8px; width: 100%;
+}
+
+.empty { text-align: center; padding: 2.5rem; color: var(--text3); font-size: 14px; }
+.empty i { font-size: 32px; display: block; margin-bottom: 8px; opacity: .5; }
+
+/* 輸入表單 */
+.add-form {
+  background: var(--bg0); border: 1.5px dashed var(--border);
+  border-radius: var(--radius); padding: 14px;
+}
+.add-form-title { font-size: 12px; color: var(--text3); margin-bottom: 10px; font-weight: 500; }
+.form-row { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 8px; }
+.form-row input, .form-row select, .form-row textarea {
+  flex: 1; min-width: 100px; font-size: 13px;
+  background: var(--bg1); border: 1px solid var(--border);
+  border-radius: 8px; color: var(--text1);
+  padding: 8px 10px; outline: none; font-family: inherit;
+  transition: border-color .15s, box-shadow .15s;
+}
+.form-row input:focus, .form-row select:focus, .form-row textarea:focus {
+  border-color: var(--accent); box-shadow: 0 0 0 3px rgba(196,133,74,0.12);
+}
+.form-row select option { background: var(--bg1); }
+.form-row input[type="time"] { max-width: 140px; }
+.form-row input[type="number"] { max-width: 140px; }
+.form-actions { display: flex; gap: 8px; justify-content: flex-end; margin-top: 4px; }
+
+.cost-group { display: flex; flex: 1; min-width: 160px; }
+.cost-group .curr-select {
+  flex: 0 0 75px !important; min-width: 75px !important; max-width: 75px !important;
+  border-radius: 8px 0 0 8px !important; border-right: none !important;
+  background: var(--bg2) !important; font-size: 12px !important; padding: 8px !important;
+}
+.cost-group .curr-input { border-radius: 0 8px 8px 0 !important; flex: 1 !important; }
+
+/* 地圖分頁 */
+.map-wrap { background: var(--bg1); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow); }
+.map-svg-area { position: relative; background: var(--bg2); height: 320px; overflow: hidden; }
+.map-svg-area svg { width: 100%; height: 100%; }
+
+/* 花費統計 */
+.budget-wrap { display: flex; flex-direction: column; gap: 12px; }
+.budget-total {
+  background: var(--bg1); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 1.25rem; text-align: center; box-shadow: var(--shadow);
+}
+.budget-total-num { font-size: 30px; font-weight: 700; color: var(--gold); margin-bottom: 4px; font-family: 'Noto Serif TC', serif; }
+.budget-total-label { font-size: 13px; color: var(--text3); }
+.budget-breakdown { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 10px; }
+.budget-cat { background: var(--bg1); border: 1px solid var(--border); border-radius: var(--radius); padding: .85rem 1rem; box-shadow: var(--shadow); }
+.budget-cat-label { font-size: 12px; color: var(--text3); margin-bottom: 5px; display: flex; align-items: center; gap: 5px; }
+.budget-cat-val { font-size: 14px; font-weight: 600; color: var(--text1); margin-top: 2px; }
+
+/* 收據相簿模組 */
+.receipts-wrap { display: flex; flex-direction: column; gap: 12px; }
+.receipt-list { display: flex; flex-direction: column; gap: 8px; }
+.receipt-card {
+  background: var(--bg1); border: 1px solid var(--border); border-radius: var(--radius); padding: 12px 14px;
+  display: flex; gap: 12px; align-items: center; justify-content: space-between; box-shadow: var(--shadow);
+}
+.receipt-info { display: flex; flex-direction: column; gap: 2px; }
+.receipt-name { font-size: 14px; font-weight: 600; }
+.receipt-amount { font-size: 15px; font-weight: 700; color: var(--teal); margin-top: 2px; }
+
+/* 燈箱與相片預覽 */
+.modal-overlay {
+  display: none; position: fixed; inset: 0; background: rgba(50,35,20,0.7);
+  z-index: 999; align-items: center; justify-content: center; backdrop-filter: blur(4px);
+}
+.modal-overlay.open { display: flex; }
+.modal-img { max-width: 90vw; max-height: 85vh; border-radius: 12px; box-shadow: 0 20px 60px rgba(0,0,0,0.4); }
+.modal-close { position: absolute; top: 20px; right: 24px; background: none; border: none; color: #fff; font-size: 28px; cursor: pointer; }
+
+.upload-area {
+  border: 2px dashed var(--border); border-radius: 8px; padding: 14px; text-align: center;
+  cursor: pointer; background: var(--bg0); color: var(--text3); font-size: 13px; position: relative;
+  width: 100%;
+}
+.upload-area input[type=file] { position: absolute; inset: 0; opacity: 0; cursor: pointer; }
+.upload-area i { font-size: 20px; display: block; margin-bottom: 4px; }
+.upload-preview img { max-width: 100%; max-height: 100px; border-radius: 6px; object-fit: cover; margin-top: 8px; border: 1px solid var(--border); }
+
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: var(--bg1); }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--accent2); }
+
+@media (max-width: 500px) {
+  .stats { flex-direction: column; }
+  .budget-breakdown { grid-template-columns: 1fr 1fr; }
+}
+</style>
+</head>
+<body>
+<div class="app">
+
+  <div class="sync-panel">
+    <div class="sync-title"><i class="ti ti-cloud-sync"></i> GitHub 雲端同步設定</div>
+    <div class="sync-row">
+      <input type="password" id="sync-token" class="sync-input" placeholder="請貼上你的 GitHub Token (ghp_...)" />
+      <input type="text" id="sync-repo" class="sync-input" placeholder="帳號/倉庫名 (例如: karafm/travel)" />
+    </div>
+    <div class="sync-actions">
+      <button class="btn btn-accent" onclick="uploadToCloud()"><i class="ti ti-cloud-upload"></i> 上傳行程到雲端</button>
+      <button class="btn" onclick="downloadFromCloud()"><i class="ti ti-cloud-download"></i> 下載雲端行程</button>
+    </div>
+    <div id="sync-status" class="sync-status">尚未同步。請貼入金鑰設定連線。</div>
+  </div>
+
+  <div class="topbar">
+    <div class="logo">
+      <div class="logo-icon"><i class="ti ti-plane-tilt"></i></div>
+      <button class="trip-name" id="tripNameDisplay" title="點擊編輯名稱"></button>
+      <input class="trip-name-input" id="tripNameInput" style="display:none" />
+    </div>
+    <div class="topbar-right">
+      <button class="btn btn-danger btn-sm" onclick="deleteCurrentDay()" id="btnDelDay" style="display:none"><i class="ti ti-calendar-minus"></i> 刪除此天</button>
+      <button class="btn" onclick="exportTrip()"><i class="ti ti-file-text"></i> 匯出純文字</button>
+    </div>
+  </div>
+
+  <div class="stats" id="statsRow"></div>
+
+  <div class="main-tabs">
+    <button class="tab on" onclick="switchTab('schedule', this)"><i class="ti ti-calendar"></i> 行程</button>
+    <button class="tab" onclick="switchTab('map', this)"><i class="ti ti-map-pin"></i> 地圖</button>
+    <button class="tab" onclick="switchTab('budget', this)"><i class="ti ti-wallet"></i> 花費</button>
+    <button class="tab" onclick="switchTab('receipts', this)"><i class="ti ti-receipt"></i> 收據</button>
+  </div>
+
+  <div id="tabSchedule"></div>
+  <div id="tabMap" style="display:none"></div>
+  <div id="tabBudget" style="display:none"></div>
+  <div id="tabReceipts" style="display:none"></div>
+</div>
+
+<div class="modal-overlay" id="imgModal" onclick="closeModal()">
+  <button class="modal-close" onclick="closeModal()"><i class="ti ti-x"></i></button>
+  <img class="modal-img" id="modalImg" src="" alt="收據放大圖" onclick="event.stopPropagation()" />
+</div>
+
+<script>
+const TYPE = {
+  sight: { label: '景點', color: '#5a9e8a', icon: 'ti-map-pin' },
+  food: { label: '餐飲', color: '#c4854a', icon: 'ti-tools-kitchen-2' },
+  transport: { label: '交通', color: '#6a8fc4', icon: 'ti-bus' },
+  hotel: { label: '住宿', color: '#9a7ec4', icon: 'ti-building' },
+  shop: { label: '購物', color: '#c45a5a', icon: 'ti-shopping-bag' },
+};
+
+const RECEIPT_CATS = {
+  food: { label: '餐飲飲食', color: '#c4854a' },
+  transport: { label: '交通車資', color: '#6a8fc4' },
+  hotel: { label: '住宿飯店', color: '#9a7ec4' },
+  shop: { label: '購物採買', color: '#c45a5a' },
+  other: { label: '其他代辦', color: '#7a6650' }
+};
+
+const STORAGE_KEY = 'travel_planner_v2_state';
+let state = {
+  title: '我的東京之旅 2026',
+  budgetJPY: 150000,
+  budgetTWD: 30000,
+  days: [{ name: 'Day 1', date: '2026-05-20', items: [] }],
+  receipts: []
+};
+
+let currentTab = 'schedule';
+let currentDayIdx = 0;
+
+window.addEventListener('DOMContentLoaded', () => {
+  const saved = localStorage.getItem(STORAGE_KEY);
+  if (saved) { try { state = JSON.parse(saved); } catch(e){} }
+  
+  if (localStorage.getItem('sync_github_token')) {
+    document.getElementById('sync-token').value = localStorage.getItem('sync_github_token');
+  }
+  if (localStorage.getItem('sync_github_repo')) {
+    document.getElementById('sync-repo').value = localStorage.getItem('sync_github_repo');
+  }
+
+  setupTripNameEdit();
+  renderAll();
+});
+
+function saveState() { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); }
+
+function getSyncConfig() {
+  const token = document.getElementById('sync-token').value.trim();
+  const repo = document.getElementById('sync-repo').value.trim();
+  if (!token || !repo) { alert('請填寫完整 Token 與 帳號/倉庫名！'); return null; }
+  localStorage.setItem('sync_github_token', token);
+  localStorage.setItem('sync_github_repo', repo);
+  return { token, repo, filename: 'travel_v2_data.json' };
+}
+
+function showSyncStatus(msg, isError = false) {
+  const el = document.getElementById('sync-status');
+  if(el) { el.innerText = msg; el.style.color = isError ? 'var(--rose)' : 'var(--gold)'; }
+}
+
+async function uploadToCloud() {
+  const config = getSyncConfig(); if (!config) return;
+  showSyncStatus('同步進行中...請稍候...');
+  try {
+    const url = `https://api.github.com/repos/${config.repo}/contents/${config.filename}`;
+    let sha = null;
+    const checkRes = await fetch(url, { headers: { 'Authorization': `token ${config.token}` } });
+    if (checkRes.status === 200) { sha = (await checkRes.json()).sha; }
+
+    const currentData = JSON.stringify(state);
+    const base64Content = btoa(unescape(encodeURIComponent(currentData)));
+    const putRes = await fetch(url, {
+      method: 'PUT',
+      headers: { 'Authorization': `token ${config.token}`, 'Content-Type': 'application/json' },
+      body: JSON.stringify({ message: '🔄 雲端同步更新行程資料', content: base64Content, sha: sha })
+    });
+    if (putRes.status === 200 || putRes.status === 201) {
+      showSyncStatus(`🎉 上傳成功！(${new Date().toLocaleTimeString()})`);
+    } else { showSyncStatus('❌ 權限錯誤，請檢查您的 Token 開放範圍。', true); }
+  } catch (e) { showSyncStatus('❌ 連線超時或異常。', true); }
+}
+
+async function downloadFromCloud() {
+  const config = getSyncConfig(); if (!config) return;
+  showSyncStatus('同步下載雲端備份中...');
+  try {
+    const url = `https://api.github.com/repos/${config.repo}/contents/${config.filename}?nocache=${Date.now()}`;
+    const res = await fetch(url, { headers: { 'Authorization': `token ${config.token}` } });
+    if (res.status === 200) {
+      const fileData = await res.json();
+      state = JSON.parse(decodeURIComponent(escape(atob(fileData.content))));
+      saveState(); renderAll();
+      showSyncStatus(`🎉 下載成功！雲端資料已匯入本地。`);
+    } else { showSyncStatus('❌ 雲端尚未有任何儲存記錄。', true); }
+  } catch (e) { showSyncStatus('❌ 讀取雲端回傳解析失敗。', true); }
+}
+
+function setupTripNameEdit() {
+  const disp = document.getElementById('tripNameDisplay');
+  const inp = document.getElementById('tripNameInput');
+  disp.innerText = state.title || '請點此設定行程名稱';
+  disp.onclick = () => { disp.style.display='none'; inp.style.display='inline-block'; inp.value=state.title; inp.focus(); };
+  inp.onblur = () => { state.title = inp.value.trim() || '我的旅程規劃'; saveState(); disp.innerText=state.title; inp.style.display='none'; disp.style.display='inline-block'; };
+  inp.onkeydown = (e) => { if(e.key==='Enter') inp.blur(); };
+}
+
+function switchTab(tabName, btnEl) {
+  currentTab = tabName;
+  document.querySelectorAll('.main-tabs .tab').forEach(t => t.classList.remove('on'));
+  btnEl.classList.add('on');
+  document.getElementById('tabSchedule').style.display = tabName === 'schedule' ? 'block' : 'none';
+  document.getElementById('tabMap').style.display = tabName === 'map' ? 'block' : 'none';
+  document.getElementById('tabBudget').style.display = tabName === 'budget' ? 'block' : 'none';
+  document.getElementById('tabReceipts').style.display = tabName === 'receipts' ? 'block' : 'none';
+  renderAll();
+}
+
+function totalByCurrency(curr) {
+  let total = 0;
+  (state.days||[]).forEach(d => { (d.items||[]).forEach(i => { if(i.currency === curr && i.cost) total += Number(i.cost); }); });
+  return total;
+}
+
+function dayTotalDisplay(dayObj) {
+  let jpy = 0, twd = 0;
+  (dayObj.items||[]).forEach(i => { if(i.cost) { if(i.currency==='JPY') jpy += Number(i.cost); else twd += Number(i.cost); } });
+  let parts = [];
+  if (jpy > 0) parts.push(`¥${jpy.toLocaleString()}`);
+  if (twd > 0) parts.push(`NT$${twd.toLocaleString()}`);
+  return parts.length > 0 ? parts.join(' + ') : '¥0';
+}
+
+function renderStats() {
+  const rSum = (state.receipts||[]).reduce((sum, r) => sum + (Number(r.amount)||0), 0);
+  document.getElementById('statsRow').innerHTML = `
+    <div class="stat"><div class="stat-l">日幣已花費 / 預算</div><div class="stat-v gold">¥${totalByCurrency('JPY').toLocaleString()} <span style="font-size:12px;color:var(--text3)">/ ¥${(state.budgetJPY||150000).toLocaleString()}</span></div></div>
+    <div class="stat"><div class="stat-l">台幣已花費 / 預算</div><div class="stat-v acc">NT$${totalByCurrency('TWD').toLocaleString()} <span style="font-size:12px;color:var(--text3)">/ $${(state.budgetTWD||30000).toLocaleString()}</span></div></div>
+    <div class="stat"><div class="stat-l">收據記帳累計</div><div class="stat-v teal">¥${rSum.toLocaleString()}</div></div>
+  `;
+}
+
+function renderAll() {
+  renderStats();
+  if (currentTab === 'schedule') renderSchedule();
+  else if (currentTab === 'map') renderMap();
+  else if (currentTab === 'budget') renderBudget();
+  else if (currentTab === 'receipts') renderReceipts();
+}
+
+function renderSchedule() {
+  document.getElementById('btnDelDay').style.display = state.days.length > 1 ? 'inline-flex' : 'none';
+  let html = `<div class="day-nav">`;
+  state.days.forEach((d, idx) => { html += `<div class="day-chip ${idx===currentDayIdx?'on':''}" onclick="currentDayIdx=${idx};renderSchedule()">${d.name}</div>`; });
+  html += `<button class="add-day" onclick="addDay()"><i class="ti ti-plus"></i> 新增天數</button></div>`;
+
+  const curDay = state.days[currentDayIdx];
+  if (!curDay) { document.getElementById('tabSchedule').innerHTML = html; return; }
+
+  html += `
+    <div class="panel">
+      <div class="panel-head">
+        <div>
+          <div class="panel-title">${curDay.name} 詳細行程</div>
+          <div class="panel-date"><i class="ti ti-calendar-event"></i> <input type="date" value="${curDay.date||''}" onchange="state.days[currentDayIdx].date=this.value;saveState();renderSchedule()" style="border:none;background:none;color:inherit;font-family:inherit;outline:none;" /></div>
+        </div>
+        <div class="day-total">當日花費小計：${dayTotalDisplay(curDay)}</div>
+      </div>
+      <div class="items">
+  `;
+
+  if (!curDay.items || curDay.items.length === 0) {
+    html += `<div class="empty"><i class="ti ti-map-pins"></i>今天尚未安排任何景點或活動行程。</div>`;
+  } else {
+    curDay.items.sort((a,b) => (a.time||'23:59').localeCompare(b.time||'23:59'));
+    curDay.items.forEach(i => {
+      const typeCfg = TYPE[i.type] || { label:'其他', color:'#7a6650', icon:'ti-dots' };
+      html += `
+        <div class="item" id="item-node-${i.uid}">
+          <div class="item-time">${i.time || '--:--'}</div>
+          <div class="item-dot" style="background:${typeCfg.color}"></div>
+          <div class="item-body">
+            <div class="item-nm"><i class="ti ${typeCfg.icon}" style="color:${typeCfg.color}"></i> ${i.name}</div>
+            ${i.note ? `<div class="item-note">${i.note}</div>` : ''}
+          </div>
+          ${i.cost ? `<div class="item-cost" style="color:${typeCfg.color}">${i.currency==='JPY'?'¥':'NT$'}${Number(i.cost).toLocaleString()}</div>` : ''}
+          <div class="item-actions">
+            <button class="item-edit" onclick="startEditItem('${i.uid}')" title="編輯項目"><i class="ti ti-pencil"></i></button>
+            <button class="item-del" onclick="deleteItem('${i.uid}')" title="刪除項目"><i class="ti ti-trash"></i></button>
+          </div>
+        </div>
+      `;
+    });
+  }
+
+  html += `
+    </div>
+    <div class="add-form">
+      <div class="add-form-title">➕ 新增今日行程項目</div>
+      <div class="form-row">
+        <input type="time" id="add_time" />
+        <select id="add_type">${Object.keys(TYPE).map(k=>`<option value="${k}">${TYPE[k].label}</option>`).join('')}</select>
+        <input type="text" id="add_name" placeholder="行程名稱或景點 (例如: 淺草寺)" />
+      </div>
+      <div class="form-row">
+        <div class="cost-group">
+          <select id="add_curr" class="curr-select"><option value="JPY">日幣(¥)</option><option value="TWD">台幣($)</option></select>
+          <input type="number" id="add_cost" class="curr-input" placeholder="估計消費金額(選填)" />
+        </div>
+        <input type="text" id="add_note" placeholder="備註說明或交通指南 (選填)" style="flex:2" />
+      </div>
+      <div class="form-actions"><button class="btn btn-accent btn-sm" onclick="saveNewItem()"><i class="ti ti-plus"></i> 確認新增</button></div>
+    </div>
+  </div>`;
+  document.getElementById('tabSchedule').innerHTML = html;
+}
+
+function addDay() {
+  state.days.push({ name: `Day ${state.days.length + 1}`, date: '', items: [] });
+  currentDayIdx = state.days.length - 1; saveState(); renderAll();
+}
+
+function deleteCurrentDay() {
+  if(state.days.length <= 1) return;
+  if(!confirm('確認要刪除這整天的行程嗎？刪除後無法復原。')) return;
+  state.days.splice(currentDayIdx, 1);
+  currentDayIdx = 0; saveState(); renderAll();
+}
+
+function saveNewItem() {
+  const name = document.getElementById('add_name').value.trim(); if(!name) return;
+  state.days[currentDayIdx].items.push({
+    uid: 'item_'+Date.now(),
+    time: document.getElementById('add_time').value,
+    type: document.getElementById('add_type').value,
+    name,
+    currency: document.getElementById('add_curr').value,
+    cost: document.getElementById('add_cost').value,
+    note: document.getElementById('add_note').value.trim()
+  });
+  saveState(); renderAll();
+}
+
+function deleteItem(uid) {
+  state.days[currentDayIdx].items = state.days[currentDayIdx].items.filter(i => i.uid !== uid);
+  saveState(); renderAll();
+}
+
+function startEditItem(uid) {
+  const item = state.days[currentDayIdx].items.find(i => i.uid === uid);
+  const node = document.getElementById(`item-node-${uid}`);
+  if(node.querySelector('.item-edit-form')) return;
+  
+  const form = document.createElement('div');
+  form.className = 'item-edit-form';
+  form.innerHTML = `
+    <div class="form-row">
+      <input type="time" id="edit_time_${uid}" value="${item.time||''}" />
+      <select id="edit_type_${uid}">${Object.keys(TYPE).map(k=>`<option value="${k}" ${item.type===k?'selected':''}>${TYPE[k].label}</option>`).join('')}</select>
+      <input type="text" id="edit_name_${uid}" value="${item.name||''}" placeholder="項目名稱" />
+    </div>
+    <div class="form-row">
+      <div class="cost-group">
+        <select id="edit_curr_${uid}" class="curr-select"><option value="JPY" ${item.currency==='JPY'?'selected':''}>日幣(¥)</option><option value="TWD" ${item.currency==='TWD'?'selected':''}>台幣($)</option></select>
+        <input type="number" id="edit_cost_${uid}" class="curr-input" value="${item.cost||''}" placeholder="金額" />
+      </div>
+      <input type="text" id="edit_note_${uid}" value="${item.note||''}" placeholder="備註說明" style="flex:2" />
+    </div>
+    <div class="form-actions">
+      <button class="btn btn-sm" onclick="renderSchedule()">取消</button>
+      <button class="btn btn-accent btn-sm" onclick="saveEditItem('${uid}')">儲存修改</button>
+    </div>
+  `;
+  node.appendChild(form);
+}
+
+function saveEditItem(uid) {
+  const item = state.days[currentDayIdx].items.find(i => i.uid === uid);
+  item.time = document.getElementById(`edit_time_${uid}`).value;
+  item.type = document.getElementById(`edit_type_${uid}`).value;
+  item.name = document.getElementById(`edit_name_${uid}`).value.trim();
+  item.currency = document.getElementById(`edit_curr_${uid}`).value;
+  item.cost = document.getElementById(`edit_cost_${uid}`).value;
+  item.note = document.getElementById(`edit_note_${uid}`).value.trim();
+  saveState(); renderAll();
+}
+
+function renderMap() {
+  let pins = [];
+  state.days.forEach((d, dIdx) => {
+    (d.items||[]).forEach(i => { pins.push({ name: i.name, type: i.type, day: d.name }); });
+  });
+
+  let html = `
+    <div class="map-wrap">
+      <div class="map-svg-area">
+        <svg viewBox="0 0 800 320" xmlns="http://www.w3.org/2000/svg">
+          <path d="M60 160 C 200 40, 400 280, 740 160" fill="none" stroke="#ddd0bc" stroke-width="3" stroke-dasharray="6,6"/>
+  `;
+  
+  pins.forEach((p, idx) => {
+    const x = 80 + (idx * (640 / Math.max(1, pins.length - 1)));
+    const y = 160 + (idx % 2 === 0 ? -40 : 40);
+    const color = TYPE[p.type]?.color || '#7a6650';
+    html += `
+      <g transform="translate(${x},${y})">
+        <circle r="13" fill="${color}" stroke="#fff" stroke-width="2" style="box-shadow:var(--shadow)"/>
+        <text dy="4" font-size="11" font-weight="700" fill="#fff" text-anchor="middle">${idx+1}</text>
+        <text y="-20" font-size="12" font-weight="500" fill="var(--text1)" text-anchor="middle">${p.name}</text>
+        <text y="24" font-size="10" fill="var(--text3)" text-anchor="middle">${p.day}</text>
+      </g>
+    `;
+  });
+
+  html += `</svg></div></div>`;
+  document.getElementById('tabMap').innerHTML = html;
+}
+
+function renderBudget() {
+  let jpySum = 0, twdSum = 0;
+  let catSummary = { sight: {jpy:0, twd:0}, food: {jpy:0, twd:0}, transport: {jpy:0, twd:0}, hotel: {jpy:0, twd:0}, shop: {jpy:0, twd:0} };
+  
+  state.days.forEach(d => {
+    (d.items||[]).forEach(i => {
+      if(!i.cost) return;
+      const amt = Number(i.cost);
+      if(i.currency === 'JPY') {
+        jpySum += amt;
+        if(catSummary[i.type]) catSummary[i.type].jpy += amt;
+      } else {
+        twdSum += amt;
+        if(catSummary[i.type]) catSummary[i.type].twd += amt;
+      }
+    });
+  });
+
+  let html = `
+    <div class="budget-wrap">
+      <div class="budget-total">
+        <div class="budget-total-num">¥${jpySum.toLocaleString()} + NT$${twdSum.toLocaleString()}</div>
+        <div class="budget-total-label">全行程估計總計花費支出金額</div>
+      </div>
+      <div class="budget-breakdown">
+  `;
+
+  Object.keys(TYPE).forEach(k => {
+    const jAmt = catSummary[k]?.jpy || 0;
+    const tAmt = catSummary[k]?.twd || 0;
+    let costStr = "";
+    if(jAmt > 0) costStr += `¥${jAmt.toLocaleString()} `;
+    if(tAmt > 0) costStr += `NT$${tAmt.toLocaleString()}`;
+    if(jAmt === 0 && tAmt === 0) costStr = "¥0";
+
+    html += `
+      <div class="budget-cat">
+        <div class="budget-cat-label">
+          <span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:${TYPE[k].color}"></span>
+          ${TYPE[k].label}類別
+        </div>
+        <div class="budget-cat-val">${costStr}</div>
+      </div>
+    `;
+  });
+
+  html += `</div>
+    <div class="add-form">
+      <div class="add-form-title">⚙️ 預算上限設定</div>
+      <div class="form-row">
+        <input type="number" id="inp_b_jpy" value="${state.budgetJPY||150000}" placeholder="日幣預算上限" />
+        <input type="number" id="inp_b_twd" value="${state.budgetTWD||30000}" placeholder="台幣預算上限" />
+        <button class="btn btn-accent btn-sm" onclick="state.budgetJPY=Number(document.getElementById('inp_b_jpy').value);state.budgetTWD=Number(document.getElementById('inp_b_twd').value);saveState();renderAll();">更新預算</button>
+      </div>
+    </div>
+  </div>`;
+  document.getElementById('tabBudget').innerHTML = html;
+}
+
+function renderReceipts() {
+  let html = `
+    <div class="receipts-wrap">
+      <div class="receipt-add-panel">
+        <div class="receipt-add-title"><i class="ti ti-receipt"></i> 記帳與上傳收據</div>
+        <div class="form-row">
+          <input type="text" id="rec_name" placeholder="消費品項 (如: 敘敘苑燒肉)" />
+          <input type="number" id="rec_amount" placeholder="日幣金額 (¥)" />
+          <select id="rec_cat">${Object.keys(RECEIPT_CATS).map(k=>`<option value="${k}">${RECEIPT_CATS[k].label}</option>`).join('')}</select>
+        </div>
+        <div class="form-row">
+          <div class="upload-area">
+            <i class="ti ti-camera"></i> 點擊拍攝或上傳收據相片
+            <input type="file" id="rec_file" accept="image/*" onchange="previewReceiptImg(this)" />
+            <div id="rec_preview" class="upload-preview" style="display:none"></div>
+          </div>
+        </div>
+        <div class="form-actions"><button class="btn btn-accent btn-sm" onclick="addReceipt()">確認記帳</button></div>
+      </div>
+      <div class="receipt-list">
+  `;
+
+  if(!state.receipts || state.receipts.length === 0) {
+    html += `<div class="empty"><i class="ti ti-receipt-off"></i>目前尚未存入任何實體收據相片與記帳資料。</div>`;
+  } else {
+    state.receipts.forEach((r, idx) => {
+      html += `
+        <div class="receipt-card">
+          <div class="receipt-info">
+            <div class="receipt-name">[${RECEIPT_CATS[r.cat]?.label||'其他'}] ${r.name}</div>
+            <div class="receipt-amount">¥${(Number(r.amount)||0).toLocaleString()}</div>
+          </div>
+          <div style="display:flex;align-items:center;gap:12px">
+            ${r.img ? `<img src="${r.img}" class="upload-preview" style="width:40px;height:40px;border-radius:6px;object-fit:cover;margin:0;cursor:pointer" onclick="openModal('${r.img}')" />` : ''}
+            <button class="item-del" onclick="deleteReceipt(${idx})"><i class="ti ti-trash"></i></button>
+          </div>
+        </div>
+      `;
+    });
+  }
+
+  html += `</div></div>`;
+  document.getElementById('tabReceipts').innerHTML = html;
+}
+
+let tempReceiptImgBase64 = null;
+function previewReceiptImg(input) {
+  const file = input.files[0]; if(!file) return;
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    tempReceiptImgBase64 = e.target.result;
+    const div = document.getElementById('rec_preview');
+    div.innerHTML = `<img src="${tempReceiptImgBase64}" />`;
+    div.style.display = 'block';
+  }
+  reader.readAsDataURL(file);
+}
+
+function addReceipt() {
+  const name = document.getElementById('rec_name').value.trim();
+  const amount = document.getElementById('rec_amount').value;
+  if(!name || !amount) { alert('請填寫品項名稱與金額！'); return; }
+  
+  if(!state.receipts) state.receipts = [];
+  state.receipts.push({
+    name,
+    amount: Number(amount),
+    cat: document.getElementById('rec_cat').value,
+    img: tempReceiptImgBase64
+  });
+  
+  saveState();
+  tempReceiptImgBase64 = null;
+  renderAll();
+}
+
+function deleteReceipt(idx) {
+  state.receipts.splice(idx, 1);
+  saveState(); renderAll();
+}
+
+function openModal(src) {
+  document.getElementById('modalImg').src = src;
+  document.getElementById('imgModal').classList.add('open');
+}
+function closeModal() { document.getElementById('imgModal').classList.remove('open'); }
+
+function exportTrip() {
+  let text = `=== ${state.title} ===\n\n`;
+  state.days.forEach(d => {
+    text += `【${d.name}】(${d.date||'未設定日期'})\n`;
+    text += `當日小計：${dayTotalDisplay(d)}\n`;
+    if(!d.items || d.items.length === 0) { text += `  (本日暫無行程)\n`; }
+    else {
+      d.items.forEach(i => {
+        text += `  - ${i.time||'--:--'} [${TYPE[i.type]?.label||'其他'}] ${i.name}`;
+        if(i.cost) text += ` (${i.currency==='JPY'?'¥':'NT$'}${i.cost})`;
+        if(i.note) text += ` *備註:${i.note}`;
+        text += `\n`;
+      });
+    }
+    text += `\n`;
+  });
+  
+  const blob = new Blob([text], {type:'text/plain;charset=utf-8'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = `${state.title}.txt`;
+  a.click();
+}
+</script>
+</body>
+</html>
