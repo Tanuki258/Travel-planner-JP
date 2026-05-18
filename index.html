@@ -197,4 +197,520 @@ body {
   padding: 1px 7px; margin-top: 3px;
 }
 .item-cost { font-size: 13px; font-weight: 600; color: var(--teal); white-space: nowrap; padding-top: 2px; }
-.empty { text-align: center; padding: 2.5rem; color: var(--text3); font-size: 14px
+.item-del { background: none; border: none; cursor: pointer; color: var(--text3); font-size: 18px; padding: 2px; transition: color .15s; }
+.item-del:hover { color: var(--rose); }
+.empty { text-align: center; padding: 2.5rem; color: var(--text3); font-size: 14px; }
+.empty i { font-size: 32px; display: block; margin-bottom: 8px; opacity: .5; }
+
+/* Add form */
+.add-form {
+  background: var(--bg0); border: 1.5px dashed var(--border);
+  border-radius: var(--radius); padding: 14px;
+}
+.add-form-title { font-size: 12px; color: var(--text3); margin-bottom: 10px; font-weight: 500; }
+.form-row { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 8px; }
+.form-row input, .form-row select, .form-row textarea {
+  flex: 1; min-width: 100px; font-size: 13px;
+  background: var(--bg1); border: 1px solid var(--border);
+  border-radius: 8px; color: var(--text1);
+  padding: 8px 10px; outline: none; font-family: inherit;
+  transition: border-color .15s, box-shadow .15s;
+}
+.form-row input:focus, .form-row select:focus, .form-row textarea:focus {
+  border-color: var(--accent); box-shadow: 0 0 0 3px rgba(196,133,74,0.12);
+}
+.form-row select option { background: var(--bg1); }
+.form-row input[type="time"] { max-width: 140px; }
+.form-row input[type="number"] { max-width: 140px; }
+.form-row textarea { min-height: 60px; resize: vertical; }
+.form-actions { display: flex; gap: 8px; justify-content: flex-end; margin-top: 4px; }
+
+/* Section divider */
+.form-section {
+  margin-top: 10px; padding-top: 10px;
+  border-top: 1px dashed var(--border);
+}
+.form-section-label {
+  font-size: 11px; color: var(--accent); font-weight: 600;
+  text-transform: uppercase; letter-spacing: .06em;
+  margin-bottom: 8px; display: flex; align-items: center; gap: 5px;
+}
+
+/* Map tab */
+.map-wrap { background: var(--bg1); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow); }
+.map-svg-area { position: relative; background: var(--bg2); height: 280px; overflow: hidden; }
+.map-svg-area svg { width: 100%; height: 100%; }
+.map-legend { padding: 1rem 1.25rem; }
+.map-legend-title { font-size: 13px; color: var(--text2); margin-bottom: 10px; font-weight: 500; display: flex; align-items: center; gap: 6px; }
+.map-pins { display: flex; flex-direction: column; gap: 8px; }
+.map-pin-row {
+  display: flex; align-items: center; gap: 10px;
+  padding: 9px 12px; background: var(--bg0);
+  border-radius: 8px; border: 1px solid var(--border-light);
+}
+.pin-num {
+  width: 26px; height: 26px; border-radius: 50%;
+  color: #fff; font-size: 12px; font-weight: 600;
+  display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+}
+.pin-info { flex: 1; }
+.pin-nm { font-size: 13px; font-weight: 500; }
+.pin-day { font-size: 11px; color: var(--text3); margin-top: 1px; }
+.pin-type { font-size: 11px; }
+
+/* Budget tab */
+.budget-wrap { display: flex; flex-direction: column; gap: 12px; }
+.budget-total {
+  background: var(--bg1); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 1.25rem;
+  text-align: center; box-shadow: var(--shadow);
+}
+.budget-total-num { font-size: 34px; font-weight: 700; color: var(--gold); margin-bottom: 4px; font-family: 'Noto Serif TC', serif; }
+.budget-total-label { font-size: 13px; color: var(--text3); }
+.budget-bar-row { display: flex; flex-direction: column; gap: 5px; }
+.budget-bar-label { display: flex; justify-content: space-between; font-size: 13px; }
+.budget-bar-track { height: 8px; background: var(--bg2); border-radius: 999px; overflow: hidden; }
+.budget-bar-fill { height: 100%; border-radius: 999px; transition: width .6s ease; background: linear-gradient(90deg, var(--accent), var(--teal)); }
+.budget-breakdown { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 8px; }
+.budget-cat {
+  background: var(--bg0); border: 1px solid var(--border-light);
+  border-radius: var(--radius); padding: .85rem 1rem;
+}
+.budget-cat-label { font-size: 12px; color: var(--text3); margin-bottom: 5px; display: flex; align-items: center; gap: 5px; }
+.budget-cat-val { font-size: 17px; font-weight: 600; }
+.budget-cat-pct { font-size: 11px; color: var(--text3); margin-top: 2px; }
+
+/* Receipt tab */
+.receipts-wrap { display: flex; flex-direction: column; gap: 12px; }
+.receipts-summary { display: flex; gap: 10px; flex-wrap: wrap; }
+.receipt-stat {
+  flex: 1; min-width: 110px; background: var(--bg1); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: .75rem 1rem; box-shadow: var(--shadow);
+}
+.receipt-stat-l { font-size: 11px; color: var(--text3); margin-bottom: 4px; text-transform: uppercase; letter-spacing: .06em; }
+.receipt-stat-v { font-size: 20px; font-weight: 700; font-family: 'Noto Serif TC', serif; }
+.receipt-add-panel { background: var(--bg1); border: 1px solid var(--border); border-radius: var(--radius); padding: 1rem 1.25rem; box-shadow: var(--shadow); }
+.receipt-add-title { font-size: 14px; font-weight: 600; color: var(--text1); margin-bottom: 12px; display: flex; align-items: center; gap: 6px; font-family: 'Noto Serif TC', serif; }
+.receipt-list { display: flex; flex-direction: column; gap: 8px; }
+.receipt-card {
+  background: var(--bg0); border: 1px solid var(--border-light); border-radius: var(--radius); padding: 12px 14px;
+  display: flex; gap: 12px; align-items: flex-start; transition: border-color .15s, box-shadow .15s;
+}
+.receipt-card:hover { border-color: var(--accent2); box-shadow: 0 2px 10px rgba(196,133,74,0.1); }
+.receipt-icon {
+  width: 38px; height: 38px; border-radius: 10px; display: flex; align-items: center; justify-content: center;
+  font-size: 16px; flex-shrink: 0; background: var(--accent-light); color: var(--accent);
+}
+.receipt-body { flex: 1; min-width: 0; }
+.receipt-title-row { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+.receipt-name { font-size: 14px; font-weight: 500; }
+.receipt-amount { font-size: 15px; font-weight: 700; color: var(--gold); }
+.receipt-meta { font-size: 12px; color: var(--text3); margin-top: 3px; display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.receipt-cat-badge { display: inline-flex; align-items: center; gap: 3px; font-size: 11px; border-radius: 999px; padding: 2px 8px; border: 1px solid; font-weight: 500; }
+.receipt-note-text { font-size: 12px; color: var(--text2); margin-top: 4px; font-style: italic; }
+.receipt-img-thumb {
+  width: 48px; height: 48px; border-radius: 8px; object-fit: cover; border: 1px solid var(--border); cursor: pointer; flex-shrink: 0; transition: transform .15s;
+}
+.receipt-img-thumb:hover { transform: scale(1.05); }
+.receipt-del { background: none; border: none; cursor: pointer; color: var(--text3); font-size: 17px; padding: 2px; transition: color .15s; align-self: flex-start; }
+.receipt-del:hover { color: var(--rose); }
+
+/* Image preview modal */
+.modal-overlay {
+  display: none; position: fixed; inset: 0; background: rgba(50,35,20,0.7);
+  z-index: 999; align-items: center; justify-content: center; backdrop-filter: blur(4px);
+}
+.modal-overlay.open { display: flex; }
+.modal-img { max-width: 90vw; max-height: 85vh; border-radius: 12px; box-shadow: 0 20px 60px rgba(0,0,0,0.4); }
+.modal-close { position: absolute; top: 20px; right: 24px; background: none; border: none; color: #fff; font-size: 28px; cursor: pointer; opacity: .8; }
+.modal-close:hover { opacity: 1; }
+
+/* Upload area */
+.upload-area {
+  flex: 1; min-width: 200px; border: 2px dashed var(--border); border-radius: 8px; padding: 16px; text-align: center;
+  cursor: pointer; transition: all .15s; background: var(--bg0); color: var(--text3); font-size: 13px; position: relative;
+}
+.upload-area:hover { border-color: var(--accent); color: var(--accent); background: var(--accent-light); }
+.upload-area input[type=file] { position: absolute; inset: 0; opacity: 0; cursor: pointer; }
+.upload-area i { font-size: 22px; display: block; margin-bottom: 4px; }
+.upload-preview { margin-top: 8px; }
+.upload-preview img { max-width: 100%; max-height: 120px; border-radius: 8px; object-fit: cover; border: 1px solid var(--border); }
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: var(--bg1); }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--accent2); }
+
+@media (max-width: 500px) {
+  .stats { flex-direction: column; }
+  .budget-breakdown { grid-template-columns: 1fr 1fr; }
+  .receipts-summary { flex-direction: column; }
+}
+
+/* Item action buttons */
+.item-actions { display: flex; gap: 2px; flex-shrink: 0; align-items: flex-start; padding-top: 1px; }
+.item-edit { background: none; border: none; cursor: pointer; color: var(--text3); font-size: 16px; padding: 3px; transition: color .15s; }
+.item-edit:hover { color: var(--accent); }
+.item-del { background: none; border: none; cursor: pointer; color: var(--text3); font-size: 16px; padding: 3px; transition: color .15s; }
+.item-del:hover { color: var(--rose); }
+
+.item-edit-form {
+  margin-top: 10px; padding: 12px; background: var(--bg1); border: 1.5px solid var(--accent2); border-radius: var(--radius);
+  display: flex; flex-direction: column; gap: 8px; animation: fadeIn .15s ease;
+}
+@keyframes fadeIn { from{opacity:0;transform:translateY(-4px)} to{opacity:1;transform:none} }
+.cost-group { display: flex; flex: 1; min-width: 160px; max-width: 100%; }
+.cost-group .curr-select, .form-row .cost-group .curr-select {
+  flex: 0 0 72px !important; min-width: 72px !important; max-width: 72px !important;
+  border-radius: 8px 0 0 8px !important; border-right: none !important;
+  background: var(--bg2) !important; font-size: 12px !important; padding: 8px 2px 8px 8px !important; box-shadow: none !important;
+}
+.cost-group .curr-input, .form-row .cost-group .curr-input { flex: 1 1 0 !important; min-width: 60px !important; border-radius: 0 8px 8px 0 !important; }
+</style>
+</head>
+<body>
+<div class="app">
+
+  <div class="sync-panel">
+    <div class="sync-title"><i class="ti ti-cloud-sync"></i> GitHub 雲端同步設定</div>
+    <div class="sync-row">
+      <input type="password" id="sync-token" class="sync-input" placeholder="請貼上你的 GitHub Token (ghp_...)" />
+      <input type="text" id="sync-repo" class="sync-input" placeholder="帳號/倉庫名 (例如: karafm/travel)" />
+    </div>
+    <div class="sync-actions">
+      <button class="btn btn-accent" onclick="uploadToCloud()"><i class="ti ti-cloud-upload"></i> 上傳行程到雲端</button>
+      <button class="btn" onclick="downloadFromCloud()"><i class="ti ti-cloud-download"></i> 下載雲端行程</button>
+    </div>
+    <div id="sync-status" class="sync-status">尚未進行同步。請輸入設定資料。</div>
+  </div>
+
+  <div class="topbar">
+    <div class="logo">
+      <div class="logo-icon"><i class="ti ti-plane-tilt"></i></div>
+      <button class="trip-name" id="tripNameDisplay" title="點擊編輯名稱"></button>
+      <input class="trip-name-input" id="tripNameInput" style="display:none" />
+    </div>
+    <div class="topbar-right">
+      <button class="btn btn-accent" onclick="exportTrip()"><i class="ti ti-download"></i> 匯出行程</button>
+    </div>
+  </div>
+
+  <div class="stats" id="statsRow"></div>
+
+  <div class="main-tabs">
+    <button class="tab on" onclick="switchTab('schedule', this)"><i class="ti ti-calendar"></i> 行程</button>
+    <button class="tab" onclick="switchTab('map', this)"><i class="ti ti-map-pin"></i> 地圖</button>
+    <button class="tab" onclick="switchTab('budget', this)"><i class="ti ti-wallet"></i> 花費</button>
+    <button class="tab" onclick="switchTab('receipts', this)"><i class="ti ti-receipt"></i> 收據</button>
+  </div>
+
+  <div id="tabSchedule"></div>
+  <div id="tabMap" style="display:none"></div>
+  <div id="tabBudget" style="display:none"></div>
+  <div id="tabReceipts" style="display:none"></div>
+</div>
+
+<div class="modal-overlay" id="imgModal" onclick="closeModal()">
+  <button class="modal-close" onclick="closeModal()"><i class="ti ti-x"></i></button>
+  <img class="modal-img" id="modalImg" src="" alt="收據圖片" onclick="event.stopPropagation()" />
+</div>
+
+<script>
+const TYPE = {
+  sight: { label: '景點', color: '#5a9e8a', icon: 'ti-map-pin' },
+  food: { label: '餐飲食', color: '#c4854a', icon: 'ti-tools-kitchen-2' },
+  transport: { label: '交通', color: '#6a8fc4', icon: 'ti-bus' },
+  hotel: { label: '住宿', color: '#9a7ec4', icon: 'ti-building' },
+  shop: { label: '購物', color: '#c45a5a', icon: 'ti-shopping-bag' },
+};
+const COLORS = ['#c4854a','#5a9e8a','#b8832a','#c45a5a','#9a7ec4','#6a8fc4'];
+const RECEIPT_CATS = {
+  food: { label: '餐飲', color: '#c4854a', bg: 'rgba(196,133,74,0.1)', border: 'rgba(196,133,74,0.3)', icon: 'ti-tools-kitchen-2' },
+  transport: { label: '交通', color: '#6a8fc4', bg: 'rgba(106,143,196,0.1)', border: 'rgba(106,143,196,0.3)', icon: 'ti-bus' },
+  hotel: { label: '住宿', color: '#9a7ec4', bg: 'rgba(154,126,196,0.1)', border: 'rgba(154,126,196,0.3)', icon: 'ti-building' },
+  shop: { label: '購物', color: '#c45a5a', bg: 'rgba(196,90,90,0.1)', border: 'rgba(196,90,90,0.3)', icon: 'ti-shopping-bag' },
+  other: { label: '其他', color: '#7a6650', bg: 'rgba(122,102,80,0.1)', border: 'rgba(122,102,80,0.3)', icon: 'ti-dots' }
+};
+
+const STORAGE_KEY = 'travel_planner_v2_state';
+let state = {
+  title: '我的東京之旅 2026',
+  budgetJPY: 150000,
+  budgetTWD: 30000,
+  days: [{ name: 'Day 1', date: '2026-05-20', items: [] }],
+  receipts: []
+};
+
+let currentTab = 'schedule';
+let currentDayIdx = 0;
+let editingItemUid = null;
+
+window.addEventListener('DOMContentLoaded', () => {
+  const saved = localStorage.getItem(STORAGE_KEY);
+  if (saved) { try { state = JSON.parse(saved); } catch(e){} }
+  
+  if (localStorage.getItem('sync_github_token')) {
+    document.getElementById('sync-token').value = localStorage.getItem('sync_github_token');
+  }
+  if (localStorage.getItem('sync_github_repo')) {
+    document.getElementById('sync-repo').value = localStorage.getItem('sync_github_repo');
+  }
+
+  setupTripNameEdit();
+  renderAll();
+});
+
+function saveState() { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); }
+
+function getSyncConfig() {
+  const token = document.getElementById('sync-token').value.trim();
+  const repo = document.getElementById('sync-repo').value.trim();
+  if (!token || !repo) { alert('請填寫密鑰與專案路徑！'); return null; }
+  localStorage.setItem('sync_github_token', token);
+  localStorage.setItem('sync_github_repo', repo);
+  return { token, repo, filename: 'travel_v2_data.json' };
+}
+
+function showSyncStatus(msg, isError = false) {
+  const el = document.getElementById('sync-status');
+  if(el) { el.innerText = msg; el.style.color = isError ? 'var(--rose)' : 'var(--gold)'; }
+}
+
+async function uploadToCloud() {
+  const config = getSyncConfig(); if (!config) return;
+  showSyncStatus('正在上傳行程至 GitHub...');
+  try {
+    const url = `https://api.github.com/repos/${config.repo}/contents/${config.filename}`;
+    let sha = null;
+    const checkRes = await fetch(url, { headers: { 'Authorization': `token ${config.token}` } });
+    if (checkRes.status === 200) { sha = (await checkRes.json()).sha; }
+
+    const currentData = JSON.stringify(state);
+    const base64Content = btoa(unescape(encodeURIComponent(currentData)));
+    const putRes = await fetch(url, {
+      method: 'PUT',
+      headers: { 'Authorization': `token ${config.token}`, 'Content-Type': 'application/json' },
+      body: JSON.stringify({ message: '🔄 雲端更新排程', content: base64Content, sha: sha })
+    });
+    if (putRes.status === 200 || putRes.status === 201) {
+      showSyncStatus(`🎉 上傳成功！(${new Date().toLocaleTimeString()})`);
+    } else { showSyncStatus('❌ 上傳失敗，請確認 Token 權限。', true); }
+  } catch (e) { showSyncStatus('❌ 連線錯誤', true); }
+}
+
+async function downloadFromCloud() {
+  const config = getSyncConfig(); if (!config) return;
+  showSyncStatus('正在從雲端抓取行程...');
+  try {
+    const url = `https://api.github.com/repos/${config.repo}/contents/${config.filename}?nocache=${Date.now()}`;
+    const res = await fetch(url, { headers: { 'Authorization': `token ${config.token}` } });
+    if (res.status === 200) {
+      const fileData = await res.json();
+      state = JSON.parse(decodeURIComponent(escape(atob(fileData.content))));
+      saveState(); renderAll();
+      showSyncStatus(`🎉 下載成功！資料已完全同步。`);
+    } else { showSyncStatus('❌ 雲端無檔案或帳號填寫錯誤。', true); }
+  } catch (e) { showSyncStatus('❌ 讀取資料失敗', true); }
+}
+
+function setupTripNameEdit() {
+  const disp = document.getElementById('tripNameDisplay');
+  const inp = document.getElementById('tripNameInput');
+  if(!disp || !inp) return;
+  disp.innerText = state.title || '請輸入行程名稱';
+  disp.onclick = () => { disp.style.display='none'; inp.style.display='inline-block'; inp.value=state.title; inp.focus(); };
+  inp.onblur = () => { state.title = inp.value.trim() || '我的旅遊行程'; saveState(); disp.innerText=state.title; inp.style.display='none'; disp.style.display='inline-block'; };
+  inp.onkeydown = (e) => { if(e.key==='Enter') inp.blur(); };
+}
+
+function switchTab(tabName, btnEl) {
+  currentTab = tabName;
+  document.querySelectorAll('.main-tabs .tab').forEach(t => t.classList.remove('on'));
+  btnEl.classList.add('on');
+  document.getElementById('tabSchedule').style.display = tabName === 'schedule' ? 'block' : 'none';
+  document.getElementById('tabMap').style.display = tabName === 'map' ? 'block' : 'none';
+  document.getElementById('tabBudget').style.display = tabName === 'budget' ? 'block' : 'none';
+  document.getElementById('tabReceipts').style.display = tabName === 'receipts' ? 'block' : 'none';
+  renderAll();
+}
+
+function totalByCurrency(curr) {
+  let total = 0;
+  (state.days||[]).forEach(d => { (d.items||[]).forEach(i => { if(i.currency === curr && i.cost) total += Number(i.cost); }); });
+  return total;
+}
+
+function dayTotalDisplay(dayObj) {
+  let jpy = 0, twd = 0;
+  (dayObj.items||[]).forEach(i => { if(i.cost) { if(i.currency==='JPY') jpy += Number(i.cost); else twd += Number(i.cost); } });
+  let parts = [];
+  if (jpy > 0) parts.push(`¥${jpy.toLocaleString()}`);
+  if (twd > 0) parts.push(`NT$${twd.toLocaleString()}`);
+  return parts.length > 0 ? parts.join(' + ') : '¥0';
+}
+
+function renderStats() {
+  document.getElementById('statsRow').innerHTML = `
+    <div class="stat"><div class="stat-l">日幣預算 / 已花</div><div class="stat-v gold">¥${totalByCurrency('JPY').toLocaleString()} <span style="font-size:12px;color:var(--text3)">/ ¥${(state.budgetJPY||0).toLocaleString()}</span></div></div>
+    <div class="stat"><div class="stat-l">台幣預算 / 已花</div><div class="stat-v acc">NT$${totalByCurrency('TWD').toLocaleString()} <span style="font-size:12px;color:var(--text3)">/ NT$${(state.budgetTWD||0).toLocaleString()}</span></div></div>
+    <div class="stat"><div class="stat-l">收據記帳總額</div><div class="stat-v teal">¥${(state.receipts||[]).reduce((sum, r) => sum + (Number(r.amount)||0), 0).toLocaleString()}</div></div>
+  `;
+}
+
+function renderAll() {
+  renderStats();
+  if (currentTab === 'schedule') renderSchedule();
+  else if (currentTab === 'map') renderMap();
+  else if (currentTab === 'budget') renderBudget();
+  else if (currentTab === 'receipts') renderReceipts();
+}
+
+function renderSchedule() {
+  let html = `<div class="day-nav">`;
+  state.days.forEach((d, idx) => { html += `<div class="day-chip ${idx===currentDayIdx?'on':''}" onclick="currentDayIdx=${idx};renderSchedule()">${d.name}</div>`; });
+  html += `<button class="add-day" onclick="addDay()"><i class="ti ti-plus"></i> 新增天數</button></div>`;
+
+  const curDay = state.days[currentDayIdx];
+  if (!curDay) {
+    document.getElementById('tabSchedule').innerHTML = html + `<div class="panel empty">請新增天數</div>`; return;
+  }
+
+  html += `
+    <div class="panel">
+      <div class="panel-head">
+        <div>
+          <div class="panel-title">${curDay.name} 行程明細</div>
+          <div class="panel-date"><i class="ti ti-calendar-event"></i> <input type="date" value="${curDay.date||''}" onchange="state.days[currentDayIdx].date=this.value;saveState();renderSchedule()" style="border:none;background:none;color:inherit;outline:none;" /></div>
+        </div>
+        <div class="day-total">當日消費：${dayTotalDisplay(curDay)}</div>
+      </div>
+      <div class="items">
+  `;
+
+  if (!curDay.items || curDay.items.length === 0) {
+    html += `<div class="empty"><i class="ti ti-map-pins"></i>當天還沒有行程。</div>`;
+  } else {
+    curDay.items.sort((a,b) => (a.time||'23:59').localeCompare(b.time||'23:59'));
+    curDay.items.forEach(i => {
+      const typeCfg = TYPE[i.type] || { label:'其他', color:'#7a6650' };
+      html += `
+        <div class="item" id="item-node-${i.uid}">
+          <div class="item-time">${i.time || '--:--'}</div>
+          <div class="item-dot" style="background:${typeCfg.color}"></div>
+          <div class="item-body">
+            <div class="item-nm">${i.name}</div>
+            ${i.note ? `<div class="item-note">${i.note}</div>` : ''}
+          </div>
+          ${i.cost ? `<div class="item-cost" style="color:${typeCfg.color}">${i.currency==='JPY'?'¥':'NT$'}${Number(i.cost).toLocaleString()}</div>` : ''}
+          <div class="item-actions">
+            <button class="item-edit" onclick="startEditItem('${i.uid}')"><i class="ti ti-pencil"></i></button>
+            <button class="item-del" onclick="deleteItem('${i.uid}')"><i class="ti ti-trash"></i></button>
+          </div>
+        </div>
+      `;
+    });
+  }
+
+  html += `
+    </div>
+    <div class="add-form">
+      <div class="add-form-title">➕ 新增項目</div>
+      <div class="form-row">
+        <input type="time" id="add_time" />
+        <select id="add_type">${Object.keys(TYPE).map(k=>`<option value="${k}">${TYPE[k].label}</option>`).join('')}</select>
+        <input type="text" id="add_name" placeholder="項目名稱" />
+      </div>
+      <div class="form-row">
+        <div class="cost-group">
+          <select id="add_curr" class="curr-select"><option value="JPY">JPY (¥)</option><option value="TWD">TWD ($)</option></select>
+          <input type="number" id="add_cost" class="curr-input" placeholder="金額" />
+        </div>
+        <input type="text" id="add_note" placeholder="備註 (選填)" style="flex:2" />
+      </div>
+      <div class="form-actions"><button class="btn btn-accent btn-sm" onclick="saveNewItem()">新增項目</button></div>
+    </div>
+  </div>`;
+  document.getElementById('tabSchedule').innerHTML = html;
+}
+
+function addDay() {
+  state.days.push({ name: `Day ${state.days.length + 1}`, date: '', items: [] });
+  currentDayIdx = state.days.length - 1; saveState(); renderAll();
+}
+function deleteCurrentDay() {
+  if(state.days.length <= 1) return;
+  state.days.splice(currentDayIdx, 1); currentDayIdx = 0; saveState(); renderAll();
+}
+function saveNewItem() {
+  const name = document.getElementById('add_name').value.trim(); if(!name) return;
+  state.days[currentDayIdx].items.push({
+    uid: 'item_'+Date.now(),
+    time: document.getElementById('add_time').value,
+    type: document.getElementById('add_type').value,
+    name,
+    currency: document.getElementById('add_curr').value,
+    cost: document.getElementById('add_cost').value,
+    note: document.getElementById('add_note').value.trim()
+  });
+  saveState(); renderAll();
+}
+function deleteItem(uid) {
+  state.days[currentDayIdx].items = state.days[currentDayIdx].items.filter(i => i.uid !== uid);
+  saveState(); renderAll();
+}
+function startEditItem(uid) {
+  editingItemUid = uid; const item = state.days[currentDayIdx].items.find(i => i.uid === uid);
+  const node = document.getElementById(`item-node-${uid}`);
+  const editForm = document.createElement('div'); editForm.className = 'item-edit-form';
+  editForm.innerHTML = `
+    <div class="form-row">
+      <input type="time" id="edit_time" value="${item.time||''}" />
+      <input type="text" id="edit_name" value="${item.name||''}" />
+    </div>
+    <div class="form-actions">
+      <button class="btn btn-sm" onclick="cancelEditItem()">取消</button>
+      <button class="btn btn-accent btn-sm" onclick="saveEditItem('${uid}')">儲存</button>
+    </div>`;
+  node.appendChild(editForm);
+}
+function cancelEditItem() { renderSchedule(); }
+function saveEditItem(uid) {
+  const item = state.days[currentDayIdx].items.find(i => i.uid === uid);
+  item.time = document.getElementById('edit_time').value;
+  item.name = document.getElementById('edit_name').value;
+  saveState(); renderAll();
+}
+
+function renderMap() {
+  let pins = []; state.days.forEach(d => { (d.items||[]).forEach(i => pins.push({ name: i.name, type: i.type })); });
+  let html = `<div class="map-wrap"><div class="map-svg-area"><svg viewBox="0 0 800 280" xmlns="http://www.w3.org/2000/svg">`;
+  html += `<path d="M50 140 Q 200 40, 400 140 T 750 140" fill="none" stroke="#ddd0bc" stroke-width="3" stroke-dasharray="6,6"/>`;
+  pins.forEach((p, idx) => {
+    const x = 80 + (idx * (640 / Math.max(1, pins.length - 1)));
+    html += `<g transform="translate(${x},120)"><circle r="12" fill="${TYPE[p.type]?.color || '#7a6650'}"/><text dy="4" font-size="10" fill="#fff" text-anchor="middle">${idx+1}</text><text y="-18" font-size="11" text-anchor="middle">${p.name}</text></g>`;
+  });
+  html += `</svg></div></div>`;
+  document.getElementById('tabMap').innerHTML = html;
+}
+
+function renderBudget() {
+  const jpyUsed = totalByCurrency('JPY');
+  let html = `<div class="budget-wrap"><div class="budget-total"><div class="budget-total-num">¥${jpyUsed.toLocaleString()}</div><div>預算花費統計</div></div></div>`;
+  document.getElementById('tabBudget').innerHTML = html;
+}
+
+function renderReceipts() {
+  let html = `<div class="receipts-wrap">`;
+  state.receipts.forEach((r, idx) => {
+    html += `<div class="receipt-card"><div class="receipt-body"><div class="receipt-name">${r.name}</div><div class="receipt-amount">¥${r.amount}</div></div></div>`;
+  });
+  html += `</div>`;
+  document.getElementById('tabReceipts').innerHTML = html;
+}
+
+function closeModal() { document.getElementById('imgModal').classList.remove('open'); }
+function exportTrip() { alert('功能已就緒'); }
+</script>
+</body>
+</html>
